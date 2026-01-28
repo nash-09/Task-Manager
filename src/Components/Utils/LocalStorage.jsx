@@ -226,20 +226,23 @@ const Employees = [
 ]
 
 const Admin = [
-    {
-    "id": 101,
-    "email": "admin@example.com",
-    "password": "123"
-  }
+  { id: 101, email: "admin@example.com", password: "123" }
 ]
 
-export function setItem(){
-  localStorage.setItem('Employees', JSON.stringify(Employees))
-  localStorage.setItem('Admin', JSON.stringify(Admin))
+export function seedLocalStorage() {
+  if (!localStorage.getItem("Employees")) {
+    localStorage.setItem("Employees", JSON.stringify(Employees))
+  }
+
+  if (!localStorage.getItem("Admin")) {
+    localStorage.setItem("Admin", JSON.stringify(Admin))
+  }
 }
 
-export function getItem(){
-  const employees = JSON.parse(localStorage.getItem('Employees'))
-  const admin = JSON.parse(localStorage.getItem('Admin'))
-  return {employees,admin}
+export function getEmployees() {
+  return JSON.parse(localStorage.getItem("Employees")) || []
+}
+
+export function getAdmin() {
+  return JSON.parse(localStorage.getItem("Admin")) || []
 }
