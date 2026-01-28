@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { Context } from './Components/Context/AuthContext'
 import Login from './Components/Auth/Login'
 import AdminDashboard from './Components/Dashboard/AdminDashboard'
 import EmployeeDashboard from './Components/Dashboard/EmployeeDashboard'
-import { getEmployees, getAdmin } from './Components/Utils/LocalStorage'
 
 const App = () => {
+  const {
+    employees,
+    setEmployees,
+    admin,
+    user,
+    setUser,
+    userId,
+    setUserId
+  } = useContext(Context)
 
-  const [employees, setEmployees] = useState(() => getEmployees())
-  const [admin] = useState(() => getAdmin())
-  const [user, setUser] = useState(null)
-  const [userId, setUserId] = useState(null)
-
-  // 🔁 sync employees
-  useEffect(() => {
-    localStorage.setItem('Employees', JSON.stringify(employees))
-  }, [employees])
-
-  // 🔁 auto login
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('LoggedInUser'))
     if (!stored) return
