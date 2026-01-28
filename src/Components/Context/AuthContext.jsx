@@ -1,5 +1,5 @@
 import React, { createContext, useEffect } from 'react'
-import { getItem, initializeStorage } from '../Utils/LocalStorage'
+import { getItem } from '../Utils/LocalStorage'
 
 export const Context = createContext()
 
