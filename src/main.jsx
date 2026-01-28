@@ -5,10 +5,13 @@ import App from './App.jsx'
 import AuthContext from './Components/Context/AuthContext.jsx'
 import { initializeStorage } from './Components/Utils/LocalStorage.jsx'
 
+// 🔥 MUST RUN BEFORE REACT
 initializeStorage()
 
 createRoot(document.getElementById('root')).render(
-  <AuthContext>
-    <App />
-  </AuthContext>,
+  <StrictMode>
+    <AuthContext>
+      <App />
+    </AuthContext>
+  </StrictMode>
 )
