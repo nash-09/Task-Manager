@@ -5,7 +5,7 @@ export const Context = createContext()
 
 const AuthContext = ({children}) => {
 
-  const data = getItem()
+  const data = getItem() || []
 
   return (
     <div>

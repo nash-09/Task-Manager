@@ -6,7 +6,7 @@ import { getItem, setItem } from './Components/Utils/LocalStorage'
 
 const App = () => {
 
-  const initialData = getItem()
+  const initialData = getItem() || []
 
   const [employees, setEmployees] = useState(JSON.parse(localStorage.getItem('Employees')) || initialData.employees)
 
