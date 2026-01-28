@@ -18,7 +18,7 @@ const App = () => {
   }, [employees])
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('LoggedInUser'))
+    const stored = JSON.parse(localStorage.getItem('LoggedInUser')) || []
     if (!stored) return
     setUser(stored.role)
     if (stored.role === 'employee') setUserId(stored.id)
@@ -32,7 +32,7 @@ const App = () => {
       return
     }
 
-    const employee = employees.find(e => e.email === email && e.password === password)
+    const employee = employees?.find(e => e.email === email && e.password === password)
 
     if (!employee) {
       alert('Invalid Credentials')
@@ -49,7 +49,7 @@ const App = () => {
     localStorage.removeItem('LoggedInUser')
   }
 
-  const currentEmployee = employees.find(e => e.id === userId)
+  const currentEmployee = employees?.find(e => e.id === userId)
 
   return (
     <>
