@@ -2,39 +2,31 @@ import React, { useEffect, useState } from 'react'
 import Login from './Components/Auth/Login'
 import AdminDashboard from './Components/Dashboard/AdminDashboard'
 import EmployeeDashboard from './Components/Dashboard/EmployeeDashboard'
-import { seedLocalStorage, getEmployees, getAdmin } from './Components/Utils/LocalStorage'
+import { getItem } from './Components/Utils/LocalStorage'
 
 const App = () => {
 
-  // ✅ seed default data ONCE
-  useEffect(() => {
-    seedLocalStorage()
-  }, [])
+  const { employees: storedEmployees, admin } = getItem()
 
-  // ✅ ALWAYS array, never null
-  const [employees, setEmployees] = useState(() => getEmployees())
-
+  const [employees, setEmployees] = useState(storedEmployees)
   const [user, setUser] = useState(null)
   const [userId, setUserId] = useState(null)
 
-  // ✅ sync state → localStorage
+  // ✅ keep Employees synced
   useEffect(() => {
     localStorage.setItem('Employees', JSON.stringify(employees))
   }, [employees])
 
-  // ✅ restore login
+  // ✅ auto login
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('LoggedInUser'))
     if (!stored) return
-
     setUser(stored.role)
     if (stored.role === 'employee') setUserId(stored.id)
   }, [])
 
   const handleLogin = (email, password) => {
-    const admin = getAdmin()[0]
-
-    if (email === admin.email && password === admin.password) {
+    if (email === admin[0]?.email && password === admin[0]?.password) {
       setUser('admin')
       localStorage.setItem('LoggedInUser', JSON.stringify({ role: 'admin' }))
       return

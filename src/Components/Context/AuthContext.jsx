@@ -1,18 +1,20 @@
-import React, { createContext, useState } from 'react'
-import { getItem } from '../Utils/LocalStorage'
+import React, { createContext, useEffect } from 'react'
+import { getItem, initializeStorage } from '../Utils/LocalStorage'
 
 export const Context = createContext()
 
-const AuthContext = ({children}) => {
+const AuthContext = ({ children }) => {
 
-  const data = getItem() || []
+  useEffect(() => {
+    initializeStorage()   // 👈 runs once
+  }, [])
+
+  const data = getItem()
 
   return (
-    <div>
-      <Context.Provider value={data}>
-        {children}
-      </Context.Provider>
-    </div>
+    <Context.Provider value={data}>
+      {children}
+    </Context.Provider>
   )
 }
 
