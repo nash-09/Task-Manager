@@ -2,25 +2,34 @@ import React, { useEffect, useState } from 'react'
 import Login from './Components/Auth/Login'
 import AdminDashboard from './Components/Dashboard/AdminDashboard'
 import EmployeeDashboard from './Components/Dashboard/EmployeeDashboard'
-import { getItem } from './Components/Utils/LocalStorage'
+import { getItem, initializeStorage } from './Components/Utils/LocalStorage'
 
 const App = () => {
 
+  // 🔥 1. Initialize LocalStorage FIRST
+  useEffect(() => {
+    initializeStorage()
+  }, [])
+
+  // 🔥 2. Read data AFTER initialization
   const { employees: storedEmployees, admin } = getItem()
 
   const [employees, setEmployees] = useState(storedEmployees)
   const [user, setUser] = useState(null)
   const [userId, setUserId] = useState(null)
 
-  // ✅ keep Employees synced
+  // 🔥 3. Sync employees safely
   useEffect(() => {
-    localStorage.setItem('Employees', JSON.stringify(employees))
+    if (employees.length > 0) {
+      localStorage.setItem('Employees', JSON.stringify(employees))
+    }
   }, [employees])
 
-  // ✅ auto login
+  // 🔥 Auto login
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('LoggedInUser'))
     if (!stored) return
+
     setUser(stored.role)
     if (stored.role === 'employee') setUserId(stored.id)
   }, [])
