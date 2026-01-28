@@ -6,7 +6,7 @@ import { getItem, setItem } from './Components/Utils/LocalStorage'
 
 const App = () => {
 
-  const initialData = getItem() || []
+  const initialData = getItem()
 
   const [employees, setEmployees] = useState(JSON.parse(localStorage.getItem('Employees')) || initialData.employees)
 
@@ -25,7 +25,7 @@ const App = () => {
   }, [])
 
   const handleLogin = (email, password) => {
-    const admin = initialData.admin[0]
+    const admin = initialData?.admin[0]
     if (email === admin.email && password === admin.password) {
       setUser('admin')
       localStorage.setItem('LoggedInUser', JSON.stringify({ role: 'admin' }))
