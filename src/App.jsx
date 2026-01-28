@@ -2,34 +2,24 @@ import React, { useEffect, useState } from 'react'
 import Login from './Components/Auth/Login'
 import AdminDashboard from './Components/Dashboard/AdminDashboard'
 import EmployeeDashboard from './Components/Dashboard/EmployeeDashboard'
-import { getItem, initializeStorage } from './Components/Utils/LocalStorage'
+import { getEmployees, getAdmin } from './Components/Utils/LocalStorage'
 
 const App = () => {
 
-  // 🔥 1. Initialize LocalStorage FIRST
-  useEffect(() => {
-    initializeStorage()
-  }, [])
-
-  // 🔥 2. Read data AFTER initialization
-  const { employees: storedEmployees, admin } = getItem()
-
-  const [employees, setEmployees] = useState(storedEmployees)
+  const [employees, setEmployees] = useState(() => getEmployees())
+  const [admin] = useState(() => getAdmin())
   const [user, setUser] = useState(null)
   const [userId, setUserId] = useState(null)
 
-  // 🔥 3. Sync employees safely
+  // 🔁 sync employees
   useEffect(() => {
-    if (employees.length > 0) {
-      localStorage.setItem('Employees', JSON.stringify(employees))
-    }
+    localStorage.setItem('Employees', JSON.stringify(employees))
   }, [employees])
 
-  // 🔥 Auto login
+  // 🔁 auto login
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('LoggedInUser'))
     if (!stored) return
-
     setUser(stored.role)
     if (stored.role === 'employee') setUserId(stored.id)
   }, [])
@@ -41,20 +31,17 @@ const App = () => {
       return
     }
 
-    const employee = employees.find(
+    const emp = employees.find(
       e => e.email === email && e.password === password
     )
 
-    if (!employee) {
-      alert('Invalid Credentials')
-      return
-    }
+    if (!emp) return alert('Invalid Credentials')
 
     setUser('employee')
-    setUserId(employee.id)
+    setUserId(emp.id)
     localStorage.setItem(
       'LoggedInUser',
-      JSON.stringify({ role: 'employee', id: employee.id })
+      JSON.stringify({ role: 'employee', id: emp.id })
     )
   }
 

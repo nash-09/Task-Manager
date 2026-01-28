@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import AuthContext from './Components/Context/AuthContext.jsx'
+import { initializeStorage } from './Components/Utils/LocalStorage.jsx'
+
+initializeStorage()
 
 createRoot(document.getElementById('root')).render(
   <AuthContext>

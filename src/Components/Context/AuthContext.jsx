@@ -5,10 +5,6 @@ export const Context = createContext()
 
 const AuthContext = ({ children }) => {
 
-  useEffect(() => {
-    initializeStorage()   // 👈 runs once
-  }, [])
-
   const data = getItem()
 
   return (

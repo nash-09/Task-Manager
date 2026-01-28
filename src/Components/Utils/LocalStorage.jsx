@@ -224,13 +224,8 @@ const Employees = [
     ]
   }
 ]
-
 const Admin = [
-  {
-    id: 101,
-    email: "admin@example.com",
-    password: "123"
-  }
+  { id: 101, email: "admin@example.com", password: "123" }
 ]
 
 export function initializeStorage() {
@@ -243,9 +238,10 @@ export function initializeStorage() {
   }
 }
 
-export function getItem() {
-  return {
-    employees: JSON.parse(localStorage.getItem('Employees')) || [],
-    admin: JSON.parse(localStorage.getItem('Admin')) || []
-  }
+export function getEmployees() {
+  return JSON.parse(localStorage.getItem('Employees')) || []
+}
+
+export function getAdmin() {
+  return JSON.parse(localStorage.getItem('Admin')) || []
 }
